@@ -19,8 +19,9 @@ Before you begin, ensure you have the following installed:
 - wxWidgets library (for GUI)
 - Make or similar build system
 
-## Commands
+## Compile
 
+```bash
 g++ -o health_monitor_gui \
 src/gui/App.cpp \
 src/gui/MainFrame.cpp \
@@ -32,5 +33,8 @@ src/func/function.cpp \
 data/data.cpp \
 wx-config --cxxflags --libs \
 -std=c++11
+```
 
+```bash
 ./health_monitor_gui
+```
