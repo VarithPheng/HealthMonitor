@@ -35,6 +35,8 @@ wx-config --cxxflags --libs \
 -std=c++11
 ```
 
+## Run the program
+
 ```bash
 ./health_monitor_gui
 ```
