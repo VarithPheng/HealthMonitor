@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "data.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -49,14 +49,15 @@ void draw(double mean, double std_dev) {
 
 
 vector<double> generate_data(double mean, double std, int points) {
-    vector<double> data; // Declare a vector
-    // Generate random samples based on the normal distribution
+    vector<double> data;
     for (int i = 0; i < points; ++i) {
         double random_x = random_normal(mean, std);
-        data.push_back(random_x); // Use push_back to add elements
-        // cout << random_x;
+        if (mean == 98.25) {
+            random_x = (random_x - 32.0) * 5.0/9.0;
+        }
+        data.push_back(random_x);
     }
-    return data; // Return the vector
+    return data;
 }
 
 void test(double x, double mean, double std) {
@@ -64,35 +65,41 @@ void test(double x, double mean, double std) {
     cout << "Randomly chosen X = " << x << " with cumulative probability: " << probability << endl;
 }
 
-void write_data(const string& filename, const vector<double>& numbers1, const vector<double>& numbers2, const vector<double>& numbers3) {
-    // Open the file in append mode
-    ofstream outFile(filename, ios::app);  // Use ios::app to append
+void write_data(const string& filename, 
+    const vector<string>& names,
+    const vector<int>& ages,
+    const vector<double>& numbers1, 
+    const vector<double>& numbers2, 
+    const vector<double>& numbers3) {
+    
+    ofstream outFile(filename, ios::app);
 
-    // Check if the file opened successfully
     if (!outFile) {
         cerr << "Error opening file!" << endl;
         return;
     }
 
-    // If the file is empty, write the header for the table
-    // Check if this is the first write by checking the current file size
-    if (outFile.tellp() == 0) { // tellp() returns the current position in the file
-        outFile << left << setw(30) << "Heart Rate" 
-                << setw(30) << "Blood Pressure" 
-                << setw(30) << "Body Temperature" << endl;
+    if (outFile.tellp() == 0) {
+        outFile << left 
+                << setw(20) << "Name"
+                << setw(10) << "Age"
+                << setw(20) << "Heart Rate" 
+                << setw(20) << "Blood Pressure" 
+                << setw(20) << "Body Temperature" << endl;
     }
 
-    // Ensure all vectors have the same size
     size_t size = numbers1.size();
     for (size_t i = 0; i < size; ++i) {
-        outFile << left << setw(30) << fixed << setprecision(4) << numbers1[i]
-                << setw(30) << fixed << setprecision(4) << numbers2[i]
-                << setw(30) << fixed << setprecision(4) << numbers3[i] << endl;
+        outFile << left 
+                << setw(20) << names[i]
+                << setw(10) << ages[i]
+                << setw(20) << fixed << setprecision(4) << numbers1[i]
+                << setw(20) << fixed << setprecision(4) << numbers2[i]
+                << setw(20) << fixed << setprecision(4) << numbers3[i] << endl;
     }
 
-    // Close the file
     outFile.close();
-    cout << "Data has been successfully written to data.txt." << endl;
+    cout << "Data has been successfully written to " << filename << endl;
 }
 
 void clear_table(const string& filename) {
@@ -104,14 +111,17 @@ void clear_table(const string& filename) {
         return;
     }
 
-    // Write header for the table (same as in writeTable)
-    outFile << left << setw(30) << "Heart Rate" 
-            << setw(30) << "Blood Pressure" 
-            << setw(30) << "Body Temperature" << endl;
+    // Write header for the table with all columns
+    outFile << left 
+            << setw(20) << "Name"
+            << setw(10) << "Age"
+            << setw(20) << "Heart Rate" 
+            << setw(20) << "Blood Pressure" 
+            << setw(20) << "Body Temperature" << endl;
 
     // Close the file
     outFile.close();
-    cout << "Data has been successfully removed from data.txt." << endl;
+    cout << "Data has been successfully cleared from " << filename << endl;
 }
 
 
@@ -122,15 +132,16 @@ void readTableFromFile(const string& filename, vector<double>& heartRates, vecto
     // Skip the header line
     getline(inFile, line);
 
-    // Read the rest of the lines
     while (getline(inFile, line)) {
         stringstream ss(line);
+        string name;  // temporary variables to skip name
+        int age;      // temporary variables to skip age
         double heartRate, bloodPressure, bodyTemperature;
 
-        // Read values from the line
-        ss >> heartRate >> bloodPressure >> bodyTemperature;
+        // Read all values, including name and age
+        ss >> name >> age >> heartRate >> bloodPressure >> bodyTemperature;
 
-        // Store values in the vectors
+        // Only store the numerical values
         heartRates.push_back(heartRate);
         bloodPressures.push_back(bloodPressure);
         bodyTemperatures.push_back(bodyTemperature);
@@ -152,12 +163,14 @@ void readTableFromFile(const string& filename, const vector<int>& indices, vecto
         // Only process the lines that are in the specified indices
         if (find(indices.begin(), indices.end(), lineNumber) != indices.end()) {
             stringstream ss(line);
+            string name;  // temporary variables to skip name
+            int age;      // temporary variables to skip age
             double heartRate, bloodPressure, bodyTemperature;
 
-            // Read values from the line
-            ss >> heartRate >> bloodPressure >> bodyTemperature;
+            // Read all values, including name and age
+            ss >> name >> age >> heartRate >> bloodPressure >> bodyTemperature;
 
-            // Store values in the vectors
+            // Store only the numerical values
             heartRates.push_back(heartRate);
             bloodPressures.push_back(bloodPressure);
             bodyTemperatures.push_back(bodyTemperature);
@@ -173,7 +186,8 @@ void readTableFromFile(const string& filename, const vector<int>& indices, vecto
 //     const double heart_mean = 65.9; const double heart_std = 9.7;
 //     const double systolic_bp_mean = 110.1; const double systolic_bp_std = 9.9;
 //     const double diastolic_bp_mean = 68.5; const double diastolic_bp_std = 8.7;
-//     const double body_temp_mean = 98.25; const double body_temp_std = 0.73;
+//     const double body_temp_mean = 36.8;  // 98.25°F converted to Celsius
+//     const double body_temp_std = 0.4;    // 0.73°F converted to Celsius
 
 //     draw(105, 2);
 

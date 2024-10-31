@@ -1,91 +1,178 @@
 #include <iostream>
 #include <string>
-
+#include <vector>
+#include <fstream>
+#include <sstream>
 #include "../child/child.h"
 #include "../female/female.h"
 #include "../male/male.h"
 #include "../func/function.h"
+#include <iomanip>
 
 using namespace std;
 
+// Structure to hold patient data
+struct Patient {
+    string name;
+    int age;
+    double heartRate;
+    double bloodPressure;
+    double temperature;
+    bool isNormal;
+};
+
+// Function to determine age group based on age
+int getAgeChoice(int age) {
+    if (age < 1) return 1;  // Newborn
+    else if (age == 1) return 2;  // Infant
+    else if (age >= 1 && age <= 3) return 3;  // Toddler
+    else if (age >= 3 && age <= 5) return 4;  // Preschooler
+    else if (age >= 5 && age <= 12) return 5;  // School-aged
+    else if (age >= 12 && age <= 18) return 6;  // Teenager
+    else if (age >= 18 && age <= 65) return 7;  // Adult
+    else return 8;  // Older adult
+}
+
 int main() {
-	// Create instances of classes
-	Child child;
-	Male male;
-	Female female;
+    // Create instances of classes
+    Child child;
+    Male male;
+    Female female;
+    
+    // Vectors to store patient data
+    vector<Patient> patients;
+    vector<Patient> normalPatients;
+    vector<Patient> abnormalPatients;
 
-	// input
-    string name, gender; // name and gender
-    int ageChoice, exactAge; // for choice and real age
-    string ageGroup; // Ex: Newborn, Teenager...
-    int bpm; // Heart Rate
-    int sys, dia; // Blood Pressure (Systolic and Diastolic)
-    double temp; // Temperature
+    // Read from file
+    ifstream inFile("data/my_data.txt");
+    if (!inFile) {
+        cerr << "Error: Unable to open my_data.txt" << endl;
+        return 1;
+    }
+    
+    string line;
+    getline(inFile, line); // Skip header
 
-    cout << "Enter patient's name: ";
-    getline(cin, name); // include space in name
+    // Read and process each line
+    while (getline(inFile, line)) {
+        stringstream ss(line);
+        Patient p;
+        ss >> p.name >> p.age >> p.heartRate >> p.bloodPressure >> p.temperature;
 
-    cout << "Enter patient's gender (Male / Female): ";
-    cin >> gender;
+        // Determine age group and process health checks
+        int ageChoice = getAgeChoice(p.age);
+        string ageGroup = assignAgeGroup(ageChoice);
+        bool isNormal;
 
-    for (auto &c : gender) c = tolower(c); // convert gender input to lowercase
+        if (ageChoice <= 6) {
+            child.heartRate(ageGroup, p.heartRate);
+            child.bloodPressure(ageGroup, p.bloodPressure, p.bloodPressure * 0.6); // Approximate diastolic
+            child.temperature(ageGroup, p.temperature);
+            isNormal = child.getHeartRateNormal() && 
+                      child.getBloodPressureNormal() && 
+                      child.getTemperatureNormal();
+        } else {
+            // Assume gender based on name (this is a simplification)
+            bool isMalePatient = (p.name == "Pain" || p.name == "Nagato" || 
+                                p.name == "Itachi" || p.name == "Tobi" || 
+                                p.name == "Madara" || p.name == "Naruto" || 
+                                p.name == "Kakashi");
 
-    cout << "Age Group\n";
+            if (isMalePatient) {
+                male.heartRate(p.age, p.heartRate);
+                male.bloodPressure(p.age, p.bloodPressure, p.bloodPressure * 0.6);
+                male.temperature(p.age, p.temperature);
+                isNormal = male.getHeartRateNormal() && 
+                          male.getBloodPressureNormal() && 
+                          male.getTemperatureNormal();
+            } else {
+                female.heartRate(p.age, p.heartRate);
+                female.bloodPressure(p.age, p.bloodPressure, p.bloodPressure * 0.6);
+                female.temperature(p.age, p.temperature);
+                isNormal = female.getHeartRateNormal() && 
+                          female.getBloodPressureNormal() && 
+                          female.getTemperatureNormal();
+            }
+        }
+
+        p.isNormal = isNormal;
+        patients.push_back(p);
+        if (isNormal) {
+            normalPatients.push_back(p);
+        } else {
+            abnormalPatients.push_back(p);
+        }
+    }
+
+    // Display all patients with a clean format
+    cout << "\nAll Patients:\n";
     cout << "-------------------------------------------------\n";
-    cout << "1. Newborn [birth - 1 month]\n";
-    cout << "2. Infant [1 month - 1 year]\n";
-    cout << "3. Toddler [1 year - 3 years]\n";
-    cout << "4. Preschooler [3 years - 5 years]\n";
-    cout << "5. School-aged children [5 years - 12 years]\n";
-    cout << "6. Teenager [12 years - 18 years]\n";
-    cout << "7. Adult [18 years - 65 years]\n";
-    cout << "8. Older adult [65 years or above]\n";
+    for (const auto& p : patients) {
+        cout << left << setw(15) << p.name 
+             << "Age " << setw(3) << p.age << ": "
+             << (p.isNormal ? "Normal" : "Abnormal") << endl;
+    }
 
-    cout << "Which group do you belong to? (Choose between 1 and 8): ";
-    cin >> ageChoice;
+    // Display normal patients
+    cout << "\nNormal Patients:\n";
+    cout << "-------------------------------------------------\n";
+    for (const auto& p : normalPatients) {
+        cout << left << setw(15) << p.name << "Age " << p.age << endl;
+    }
 
-    cout << "Enter heart beat per minute (bpm): ";
-    cin >> bpm;
-
-    cout << "Enter blood pressure (mm Hg) or (Systolic first and Diastolic second): ";
-    cin >> sys >> dia;
-
-    cout << "Enter temperature in celsius (°C): ";
-    cin >> temp;
-
-    if (ageChoice >= 1 && ageChoice <= 8) {
-    	// Assign to each age group
-    	ageGroup = assignAgeGroup(ageChoice);
-
-    	// from Newborn to Teenager, gender is irrelevant
-    	if (ageChoice <= 6) {
-    		child.heartRate(ageGroup, bpm);
-    		child.bloodPressure(ageGroup, sys, dia);
-    		child.temperature(ageGroup, temp);
-
-    		displayHealth(child.getHeartRateNormal(), child.getBloodPressureNormal(), child.getTemperatureNormal());
-
-    	} else {
-    		cout << "What is your exact age? (18 or above): ";
-    		cin >> exactAge;
-
-    		if (isMale(gender)) {
-    			male.heartRate(exactAge, bpm);
-    			male.bloodPressure(exactAge, sys, dia);
-    			male.temperature(exactAge, temp);
-
-    			displayHealth(male.getHeartRateNormal(), male.getBloodPressureNormal(), male.getTemperatureNormal());
-    		} else {
-    			female.heartRate(exactAge, bpm);
-    			female.bloodPressure(exactAge, sys, dia);
-    			female.temperature(exactAge, temp);
-
-    			displayHealth(female.getHeartRateNormal(), female.getBloodPressureNormal(), female.getTemperatureNormal());
-    		}
-    	}
-
-    } else {
-    	cout << "Choose between 1 and 8.";
+    // Display abnormal patients with details
+    cout << "\nAbnormal Patients:\n";
+    cout << "-------------------------------------------------\n";
+    for (const auto& p : abnormalPatients) {
+        cout << left << setw(15) << p.name << "Age " << setw(3) << p.age << endl;
+        
+        // Check each vital sign
+        int ageChoice = getAgeChoice(p.age);
+        string ageGroup = assignAgeGroup(ageChoice);
+        
+        if (ageChoice <= 6) {
+            child.heartRate(ageGroup, p.heartRate);
+            child.bloodPressure(ageGroup, p.bloodPressure, p.bloodPressure * 0.6);
+            child.temperature(ageGroup, p.temperature);
+            
+            cout << "    Heart Rate: " << p.heartRate 
+                 << (!child.getHeartRateNormal() ? " (Abnormal)" : "") << endl;
+            cout << "    Blood Pressure: " << p.bloodPressure 
+                 << (!child.getBloodPressureNormal() ? " (Abnormal)" : "") << endl;
+            cout << "    Temperature: " << p.temperature 
+                 << (!child.getTemperatureNormal() ? " (Abnormal)" : "") << endl;
+        } else {
+            bool isMalePatient = (p.name == "Pain" || p.name == "Nagato" || 
+                                p.name == "Itachi" || p.name == "Tobi" || 
+                                p.name == "Madara" || p.name == "Naruto" || 
+                                p.name == "Kakashi");
+            
+            if (isMalePatient) {
+                male.heartRate(p.age, p.heartRate);
+                male.bloodPressure(p.age, p.bloodPressure, p.bloodPressure * 0.6);
+                male.temperature(p.age, p.temperature);
+                
+                cout << "    Heart Rate: " << p.heartRate 
+                     << (!male.getHeartRateNormal() ? " (Abnormal)" : "") << endl;
+                cout << "    Blood Pressure: " << p.bloodPressure 
+                     << (!male.getBloodPressureNormal() ? " (Abnormal)" : "") << endl;
+                cout << "    Temperature: " << p.temperature 
+                     << (!male.getTemperatureNormal() ? " (Abnormal)" : "") << endl;
+            } else {
+                female.heartRate(p.age, p.heartRate);
+                female.bloodPressure(p.age, p.bloodPressure, p.bloodPressure * 0.6);
+                female.temperature(p.age, p.temperature);
+                
+                cout << "    Heart Rate: " << p.heartRate 
+                     << (!female.getHeartRateNormal() ? " (Abnormal)" : "") << endl;
+                cout << "    Blood Pressure: " << p.bloodPressure 
+                     << (!female.getBloodPressureNormal() ? " (Abnormal)" : "") << endl;
+                cout << "    Temperature: " << p.temperature 
+                     << (!female.getTemperatureNormal() ? " (Abnormal)" : "") << endl;
+            }
+        }
+        cout << endl;
     }
 
     return 0;
