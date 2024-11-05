@@ -19,24 +19,26 @@ Before you begin, ensure you have the following installed:
 - wxWidgets library (for GUI)
 - Make or similar build system
 
-## Compile
+## Compile with GUI
 
 ```bash
-g++ -o health_monitor_gui \
-src/gui/App.cpp \
-src/gui/MainFrame.cpp \
-src/gui/CustomDialog.cpp \
-src/child/child.cpp \
-src/female/female.cpp \
-src/male/male.cpp \
-src/func/function.cpp \
-data/data.cpp \
-wx-config --cxxflags --libs \
--std=c++11
+g++ -o health_monitor_gui src/gui/App.cpp src/gui/MainFrame.cpp src/gui/CustomDialog.cpp src/func/function.cpp src/male/male.cpp src/female/female.cpp src/child/child.cpp data/data.cpp `wx-config --cxxflags --libs` -std=c++11
 ```
 
-## Run the program
+## Run with GUI
 
 ```bash
 ./health_monitor_gui
+```
+
+## Compile without GUI
+
+```bash
+g++ -o health_check src/main/main.cpp src/func/function.cpp src/male/male.cpp src/female/female.cpp src/child/child.cpp -std=c++11
+```
+
+## Run without GUI
+
+```bash
+./health_check
 ```
