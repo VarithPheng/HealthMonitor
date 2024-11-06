@@ -1,8 +1,9 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef DATA_H
+#define DATA_H
 
-#include <vector> 
+#include <vector>
 #include <string>
+#include "../src/database/DatabaseConnection.h"
 
 using namespace std;
 
@@ -62,4 +63,6 @@ void readTableFromFile(
     vector<double>& bodyTemperatures
 );
 
-#endif  // FUNCTIONS_H
+void generate_db_data(int num_records);
+
+#endif  // DATA_H

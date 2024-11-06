@@ -9,16 +9,16 @@ Frame1::Frame1(const wxString& title)
     wxPanel* panel = new wxPanel(this);
 
     // Welcome Text
-    welcomeText = new wxStaticText(panel, wxID_ANY, "Welcome!", wxPoint(165.3, 15.1));
-    wxFont font1(37.3, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
+    welcomeText = new wxStaticText(panel, wxID_ANY, "Welcome!", wxPoint(165, 15));
+    wxFont font1(37, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
     welcomeText->SetFont(font1);
     welcomeText->SetForegroundColour(*wxBLACK);
 
-    // Draw the line that seperates Welcome and Instruction text, and Instruction text and input
+    // Draw the line that separates Welcome and Instruction text, and Instruction text and input
     panel->Bind(wxEVT_PAINT, &Frame1::drawLine, this);
 
-    // set font for all
-    wxFont staticFont(18.7, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
+    // Set font for all static text
+    wxFont staticFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
     wxFont boxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
 
     // Instruction Text
@@ -26,31 +26,31 @@ Frame1::Frame1(const wxString& title)
         "Please enter the details below to monitor your\n"
         "health metrics. This information will help us track\n"
         "your health status accurately.",
-        wxPoint(25, 113.2));
+        wxPoint(25, 113));
     
     instructionText->SetFont(staticFont);
     instructionText->SetForegroundColour(*wxBLACK);
 
     // Name Text
-    nameText = new wxStaticText(panel, wxID_ANY, "Name", wxPoint(25, 263.7));
+    nameText = new wxStaticText(panel, wxID_ANY, "Name", wxPoint(25, 264));
     nameText->SetFont(staticFont);
     nameText->SetForegroundColour(*wxBLACK);
 
-    nameInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(25, 298.9), wxSize(205.1, 33.7));
+    nameInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(25, 299), wxSize(205, 34));
 
-    genderText = new wxStaticText(panel, wxID_ANY, "Gender", wxPoint(25, 343.3));
+    genderText = new wxStaticText(panel, wxID_ANY, "Gender", wxPoint(25, 343));
     genderText->SetFont(staticFont);
     genderText->SetForegroundColour(*wxBLACK);
 
-    maleCheckBox = new wxCheckBox(panel, wxID_ANY, " Male", wxPoint(46.4, 383.1), wxSize(210, 25));
+    maleCheckBox = new wxCheckBox(panel, wxID_ANY, " Male", wxPoint(46, 383), wxSize(210, 25));
     maleCheckBox->SetFont(boxFont);
     maleCheckBox->SetForegroundColour(*wxBLACK);
 
-    femaleCheckBox = new wxCheckBox(panel, wxID_ANY, " Female", wxPoint(46.4, 421.5), wxSize(210, 25));
+    femaleCheckBox = new wxCheckBox(panel, wxID_ANY, " Female", wxPoint(46, 422), wxSize(210, 25));
     femaleCheckBox->SetFont(boxFont);
     femaleCheckBox->SetForegroundColour(*wxBLACK);
 
-    ageGroupText = new wxStaticText(panel, wxID_ANY, "Age Group", wxPoint(25, 459.9));
+    ageGroupText = new wxStaticText(panel, wxID_ANY, "Age Group", wxPoint(25, 460));
     ageGroupText->SetFont(staticFont);
     ageGroupText->SetForegroundColour(*wxBLACK);
 
@@ -64,44 +64,44 @@ Frame1::Frame1(const wxString& title)
         "Adult",
         "Older Adult"
     };
-    ageGroupChoice = new wxChoice(panel, wxID_ANY, wxPoint(25, 497.2), wxSize(190, 33.7), choices);
+    ageGroupChoice = new wxChoice(panel, wxID_ANY, wxPoint(25, 497), wxSize(190, 34), choices);
     ageGroupChoice->SetFont(boxFont);
     ageGroupChoice->SetForegroundColour(*wxBLACK);
 
     exactAgeText = new wxStaticText(panel, wxID_ANY,
         "What is your\n"
         "exact age?",
-        wxPoint(25, 540.9));
+        wxPoint(25, 541));
     exactAgeText->SetFont(boxFont);
     exactAgeText->SetForegroundColour(*wxBLACK);
 
-    exactAgeInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(127.5, 567.8), wxSize(100, 26.9));
+    exactAgeInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(128, 568), wxSize(100, 27));
     wxFont exactAgeFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
     exactAgeInput->SetFont(exactAgeFont);
     exactAgeInput->SetForegroundColour(*wxBLACK);
 
-    heartRateText = new wxStaticText(panel, wxID_ANY, "Heart Rate (bpm)", wxPoint(294, 263.7));
+    heartRateText = new wxStaticText(panel, wxID_ANY, "Heart Rate (bpm)", wxPoint(294, 264));
     heartRateText->SetFont(staticFont);
     heartRateText->SetForegroundColour(*wxBLACK);
 
-    heartRateInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 298.9), wxSize(100, 33.7));
+    heartRateInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 299), wxSize(100, 34));
 
-    bloodPressureText = new wxStaticText(panel, wxID_ANY, "Blood Pressure (mmHg)", wxPoint(294, 345.9));
+    bloodPressureText = new wxStaticText(panel, wxID_ANY, "Blood Pressure (mmHg)", wxPoint(294, 346));
     bloodPressureText->SetFont(staticFont);
     bloodPressureText->SetForegroundColour(*wxBLACK);
 
-    bloodPressureInput1 = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 381.1), wxSize(70, 33.7));
-    bloodPressureInput2 = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(394, 381.1), wxSize(70, 33.7));
+    bloodPressureInput1 = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 381), wxSize(70, 34));
+    bloodPressureInput2 = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(394, 381), wxSize(70, 34));
 
-    temperatureText = new wxStaticText(panel, wxID_ANY, "Temperature (°C)", wxPoint(294, 428.2));
+    temperatureText = new wxStaticText(panel, wxID_ANY, "Temperature (Â°C)", wxPoint(294, 428));
     temperatureText->SetFont(staticFont);
     temperatureText->SetForegroundColour(*wxBLACK);
 
-    temperatureInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 463.4), wxSize(100, 33.7));
+    temperatureInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(294, 463), wxSize(100, 34));
 
-    continueButton = new wxButton(panel, wxID_ANY, "Continue", wxPoint(294, 517.2), wxSize(142.7, 40));
+    continueButton = new wxButton(panel, wxID_ANY, "Continue", wxPoint(294, 517), wxSize(143, 40));
 
-    labelText = new wxStaticText(panel, wxID_ANY, "", wxPoint(117, 606.7));
+    labelText = new wxStaticText(panel, wxID_ANY, "", wxPoint(117, 607));
     wxFont labelTextFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
     labelText->SetFont(labelTextFont);
     labelText->SetForegroundColour(*wxRED);
@@ -119,18 +119,13 @@ Frame1::Frame1(const wxString& title)
 
 void Frame1::drawLine(wxPaintEvent& event)
 {
-    // Get the panel from the event (if needed)
     wxPanel* panel = dynamic_cast<wxPanel*>(event.GetEventObject());
-
-    // Create a wxPaintDC object to perform drawing
     wxPaintDC dc(panel);
-
-    // Set the pen for drawing
-    wxPen pen(*wxBLACK, 2); // Black color, 2 pixels wide
+    wxPen pen(*wxBLACK, 2);
     dc.SetPen(pen);
 
-    dc.DrawLine(172.6, 88.2, 407.4, 88.2);
-    dc.DrawLine(25, 236.7, 555, 236.7);
+    dc.DrawLine(173, 88, 407, 88);
+    dc.DrawLine(25, 237, 555, 237);
 }
 
 void Frame1::styleInputBox(wxTextCtrl* inputBox)
@@ -151,12 +146,10 @@ void Frame1::styleButton(wxButton* continueButton)
 
 void Frame1::continueButtonClicked(wxCommandEvent& event)
 {
-    // Retrieve input values
     wxString name = nameInput->GetValue();
     bool isMaleChecked = maleCheckBox->IsChecked();
     bool isFemaleChecked = femaleCheckBox->IsChecked();
-    int selectionIndex = ageGroupChoice->GetSelection(); // Get the index of the selected item
-    wxString selectedAgeGroup;
+    int selectionIndex = ageGroupChoice->GetSelection();
     wxString exactAge = exactAgeInput->GetValue();
     wxString heartRate = heartRateInput->GetValue();
     wxString bloodPressure1 = bloodPressureInput1->GetValue();
@@ -167,51 +160,18 @@ void Frame1::continueButtonClicked(wxCommandEvent& event)
         (!heartRate.IsEmpty()) && (!bloodPressure1.IsEmpty()) && (!bloodPressure2.IsEmpty()) && (!temperature.IsEmpty()) &&
         (!exactAge.IsEmpty()))
     {
-        // Store user inputs
-        storedName = name.ToStdString();
-        // Get the string of the selected item
-        selectedAgeGroup = ageGroupChoice->GetStringSelection();
-        storedAgeGroup = selectedAgeGroup.ToStdString();
-        storedExactAge = exactAge.ToStdString();
-        storedHeartRate = wxAtoi(heartRate);
-        storedBloodPressure1 = wxAtoi(bloodPressure1);
-        storedBloodPressure2 = wxAtoi(bloodPressure2);
-        storedTemperature = wxAtof(temperature);
-
-
-        if (isMaleChecked == true && isFemaleChecked == true)
-        {
+        wxString selectedAgeGroup = ageGroupChoice->GetStringSelection();
+        if (isMaleChecked && isFemaleChecked) {
             labelText->SetLabel("Select Male or Female, not Both!");
-        }
-
-        else if (isMaleChecked == true)
-        {
-            storedGender = "Male";
-
-            // Initialize image handlers (necessary for certain formats)
+        } else {
+            wxString storedGender = isMaleChecked ? "Male" : "Female";
             wxInitAllImageHandlers();
-            // Open Frame2
-            Frame2* frame2 = new Frame2("Health Monitor", storedName, storedGender, storedAgeGroup, storedExactAge, storedHeartRate,
-                storedBloodPressure1, storedBloodPressure2, storedTemperature);
+            Frame2* frame2 = new Frame2("Health Monitor", name.ToStdString(), storedGender.ToStdString(),
+                                        selectedAgeGroup.ToStdString(), exactAge.ToStdString(), wxAtoi(heartRate),
+                                        wxAtoi(bloodPressure1), wxAtoi(bloodPressure2), wxAtof(temperature));
             frame2->Show();
-
-            // Close Frame1
             Close();
         }
-        else {
-            storedGender = "Female";
-
-            // Initialize image handlers (necessary for certain formats)
-            wxInitAllImageHandlers();
-            // Open Frame2
-            Frame2* frame2 = new Frame2("Health Monitor", storedName, storedGender, storedAgeGroup, storedExactAge, storedHeartRate,
-                storedBloodPressure1, storedBloodPressure2, storedTemperature);
-            frame2->Show();
-
-            // Close Frame1
-            Close();
-        }
-
     }
     else {
         labelText->SetLabel("Please don't leave anything blank!");

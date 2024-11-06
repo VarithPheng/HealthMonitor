@@ -181,6 +181,71 @@ void readTableFromFile(const string& filename, const vector<int>& indices, vecto
     inFile.close();
 }
 
+void generate_db_data(int num_records) {
+    auto db = DatabaseConnection::getInstance();
+    
+    // Seed the random number generator
+    srand(time(nullptr));
+    
+    // More realistic ranges for vital signs
+    const double MIN_HEART_RATE = 60.0;
+    const double MAX_HEART_RATE = 100.0;
+    const double MIN_BLOOD_PRESSURE = 90.0;
+    const double MAX_BLOOD_PRESSURE = 120.0;
+    const double MIN_TEMP = 36.0;
+    const double MAX_TEMP = 37.5;
+    
+    // Generate random patient data
+    for (int i = 0; i < num_records; i++) {
+        try {
+            // Generate random values within normal ranges
+            double heart_rate = MIN_HEART_RATE + (rand() % static_cast<int>((MAX_HEART_RATE - MIN_HEART_RATE) * 10)) / 10.0;
+            double blood_pressure = MIN_BLOOD_PRESSURE + (rand() % static_cast<int>((MAX_BLOOD_PRESSURE - MIN_BLOOD_PRESSURE) * 10)) / 10.0;
+            double temperature = MIN_TEMP + (rand() % static_cast<int>((MAX_TEMP - MIN_TEMP) * 10)) / 10.0;
+            
+            // Generate random name and age
+            vector<string> names = {"Minato", "Pain", "Konan", "Nagato", "Itachi",
+                                   "Tobi", "Madara", "Naruto", "Boruto", "Kakashi"};
+            string name = names[rand() % names.size()];
+            int age = 18 + (rand() % 50);  // Ages between 18 and 67
+            string gender = (rand() % 2 == 0) ? "M" : "F";
+            
+            // Determine age group
+            string age_group;
+            if (age < 1) age_group = "Newborn";
+            else if (age == 1) age_group = "Infant";
+            else if (age <= 3) age_group = "Toddler";
+            else if (age <= 5) age_group = "Preschooler";
+            else if (age <= 12) age_group = "School-aged";
+            else if (age <= 18) age_group = "Teenager";
+            else if (age <= 65) age_group = "Adult";
+            else age_group = "Older adult";
+            
+            // Insert patient
+            string patient_query = "INSERT INTO patients (name, age, gender) VALUES ('" +
+                                 name + "', " + to_string(age) + ", '" + gender + 
+                                 "') RETURNING patient_id;";
+            
+            PGresult* res = db->executeQuery(patient_query.c_str());
+            string patient_id = PQgetvalue(res, 0, 0);
+            PQclear(res);
+            
+            // Insert vital signs
+            string vitals_query = "INSERT INTO vital_signs (patient_id, heart_rate, blood_pressure, temperature, age_group) VALUES (" +
+                                patient_id + ", " + to_string(heart_rate) + ", " +
+                                to_string(blood_pressure) + ", " + to_string(temperature) +
+                                ", '" + age_group + "');";
+            
+            res = db->executeQuery(vitals_query.c_str());
+            PQclear(res);
+            
+        } catch (const exception& e) {
+            cerr << "Error generating record " << i << ": " << e.what() << endl;
+            continue;  // Skip to next record if there's an error
+        }
+    }
+}
+
 // int main() {
 
 //     const double heart_mean = 65.9; const double heart_std = 9.7;

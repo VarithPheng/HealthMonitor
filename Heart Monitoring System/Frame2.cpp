@@ -13,7 +13,7 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
     wxPanel* panel = new wxPanel(this);
 
     // Patient Text
-    patientText = new wxStaticText(panel, wxID_ANY, "Patient", wxPoint(838.4, 4.5));
+    patientText = new wxStaticText(panel, wxID_ANY, "Patient", wxPoint(838, 4));
     wxFont font1(40, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
     patientText->SetFont(font1);
     patientText->SetForegroundColour(*wxBLACK);
@@ -22,10 +22,10 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
     panel->Bind(wxEVT_PAINT, &Frame2::drawShape, this);
 
     // Patient Information
-    patientName = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 122.9));
-    patientGender = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 175.7));
-    patientAgeGroup = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 226.2));
-    patientExactAge = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 278.9));
+    patientName = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 123));
+    patientGender = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 176));
+    patientAgeGroup = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 226));
+    patientExactAge = new wxStaticText(panel, wxID_ANY, "", wxPoint(587, 279));
 
     wxFont font2(28, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
     patientName->SetFont(font2);
@@ -49,57 +49,55 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
         return;
     }
 
-    wxSize imageSize(static_cast<int>(226.7), static_cast<int>(226.7));
+    wxSize imageSize(227, 227);
     image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
     wxBitmap bitmap(image);
 
-    wxPoint imagePosition(static_cast<int>(1106.2), static_cast<int>(109.9));
-    wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+    wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1106, 110));
 
     wxFont font3(24, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
     wxFont font4(24, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Georgia");
 
-    testsText = new wxStaticText(panel, wxID_ANY, "TESTS", wxPoint(26.2, 366.7));
+    testsText = new wxStaticText(panel, wxID_ANY, "TESTS", wxPoint(26, 367));
     testsText->SetFont(font3);
     testsText->SetForegroundColour(*wxWHITE);
     testsText->SetBackgroundColour(wxColour(56, 182, 255));
 
-    resultsText = new wxStaticText(panel, wxID_ANY, "RESULTS", wxPoint(350, 366.7));
+    resultsText = new wxStaticText(panel, wxID_ANY, "RESULTS", wxPoint(350, 367));
     resultsText->SetFont(font3);
     resultsText->SetForegroundColour(*wxWHITE);
     resultsText->SetBackgroundColour(wxColour(56, 182, 255));
 
-    unitsText = new wxStaticText(panel, wxID_ANY, "UNITS", wxPoint(750, 366.7));
+    unitsText = new wxStaticText(panel, wxID_ANY, "UNITS", wxPoint(750, 367));
     unitsText->SetFont(font3);
     unitsText->SetForegroundColour(*wxWHITE);
     unitsText->SetBackgroundColour(wxColour(56, 182, 255));
 
-    referenceIntervalText = new wxStaticText(panel, wxID_ANY, "REFERENCE INTERVAL", wxPoint(1104.5, 366.7));
+    referenceIntervalText = new wxStaticText(panel, wxID_ANY, "REFERENCE INTERVAL", wxPoint(1104, 367));
     referenceIntervalText->SetFont(font3);
     referenceIntervalText->SetForegroundColour(*wxWHITE);
     referenceIntervalText->SetBackgroundColour(wxColour(56, 182, 255));
 
-    normalityText = new wxStaticText(panel, wxID_ANY, "NORMALITY", wxPoint(1629.5, 366.7));
+    normalityText = new wxStaticText(panel, wxID_ANY, "NORMALITY", wxPoint(1629, 367));
     normalityText->SetFont(font3);
     normalityText->SetForegroundColour(*wxWHITE);
     normalityText->SetBackgroundColour(wxColour(56, 182, 255));
 
-    heartRateText = new wxStaticText(panel, wxID_ANY, "Heart Rate", wxPoint(26.2, 430.4));
+    heartRateText = new wxStaticText(panel, wxID_ANY, "Heart Rate", wxPoint(26, 430));
     heartRateText->SetFont(font4);
     heartRateText->SetForegroundColour(*wxBLACK);
-    
-    bloodPressureText = new wxStaticText(panel, wxID_ANY, "Blood Pressure", wxPoint(26.2, 491.9));
+
+    bloodPressureText = new wxStaticText(panel, wxID_ANY, "Blood Pressure", wxPoint(26, 492));
     bloodPressureText->SetFont(font4);
     bloodPressureText->SetForegroundColour(*wxBLACK);
 
-    temperatureCelsiusText = new wxStaticText(panel, wxID_ANY, "Temperature (°C)", wxPoint(26.2, 553.4));
+    temperatureCelsiusText = new wxStaticText(panel, wxID_ANY, "Temperature (Â°C)", wxPoint(26, 553));
     temperatureCelsiusText->SetFont(font4);
     temperatureCelsiusText->SetForegroundColour(*wxBLACK);
 
-    heartRateResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(410, 430.4));
-    bloodPressureResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(385, 491.9));
-    temperatureCelsiusResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(400, 553.4));
+    heartRateResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(410, 430));
+    bloodPressureResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(385, 492));
+    temperatureCelsiusResult = new wxStaticText(panel, wxID_ANY, "", wxPoint(400, 553));
 
     heartRateResult->SetFont(font4);
     heartRateResult->SetForegroundColour(*wxBLACK);
@@ -111,23 +109,22 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
     heartRateResult->SetLabel(wxString::Format("%d", heartRate));
     bloodPressureResult->SetLabel(wxString::Format("%d / %d", bloodPressure1, bloodPressure2));
     temperatureCelsiusResult->SetLabel(wxString::Format("%.1f", temperature));
-    //temperatureFahrenheitResult->SetLabel(wxString::Format("%.1f", temperatureInFahrenheit));
 
-    heartRateUnit = new wxStaticText(panel, wxID_ANY, "bpm (beat per miute)", wxPoint(661.6, 430.4));
+    heartRateUnit = new wxStaticText(panel, wxID_ANY, "bpm (beat per minute)", wxPoint(662, 430));
     heartRateUnit->SetFont(font4);
     heartRateUnit->SetForegroundColour(*wxBLACK);
 
-    bloodPressureUnit = new wxStaticText(panel, wxID_ANY, "mmHg (millimeters of mercury)", wxPoint(584.2, 491.9));
+    bloodPressureUnit = new wxStaticText(panel, wxID_ANY, "mmHg (millimeters of mercury)", wxPoint(584, 492));
     bloodPressureUnit->SetFont(font4);
     bloodPressureUnit->SetForegroundColour(*wxBLACK);
 
-    temperatureCelsiusUnit = new wxStaticText(panel, wxID_ANY, "°C (Degree Celsius)", wxPoint(674.3, 553.4));
+    temperatureCelsiusUnit = new wxStaticText(panel, wxID_ANY, "Â°C (Degree Celsius)", wxPoint(674, 553));
     temperatureCelsiusUnit->SetFont(font4);
     temperatureCelsiusUnit->SetForegroundColour(*wxBLACK);
 
-    heartRateInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1234, 430.4));
-    bloodPressureInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1187, 491.9));
-    temperatureCelsiusInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1224, 553.4));
+    heartRateInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1234, 430));
+    bloodPressureInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1187, 492));
+    temperatureCelsiusInterval = new wxStaticText(panel, wxID_ANY, "", wxPoint(1224, 553));
 
     Initialize(gender, ageGroup, exactAge, heartRate, bloodPressure1, bloodPressure2, temperature);
 
@@ -144,9 +141,9 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
     temperatureCelsiusInterval->SetFont(font4);
     temperatureCelsiusInterval->SetForegroundColour(*wxBLACK);
 
-    heartRateNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712.3, 430.4));
-    bloodPressureNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712.3, 491.9));
-    temperatureCelsiusNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712.3, 553.4));
+    heartRateNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712, 430));
+    bloodPressureNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712, 492));
+    temperatureCelsiusNormality = new wxStaticText(panel, wxID_ANY, "", wxPoint(1712, 553));
 
     checkNormality(panel, font4);
 }
@@ -154,17 +151,11 @@ Frame2::Frame2(const wxString& title, const std::string& name, const std::string
 void Frame2::drawShape(wxPaintEvent& event)
 {
     wxPanel* panel = dynamic_cast<wxPanel*>(event.GetEventObject());
-
     wxPaintDC dc(panel);
-
-    /*wxPen pen(*wxBLACK, 2);
-    dc.SetPen(pen);*/
-
-    dc.SetPen(wxPen(wxColour("#38b6ff"), 2)); // Outline color
-    dc.SetBrush(wxBrush(wxColour("#38b6ff"))); // Fill color
-
-    dc.DrawLine(552.6, 87.5, 1367.4, 87.5);
-    dc.DrawRectangle(0, 359, 1920, 54); // Draw a rectangle
+    dc.SetPen(wxPen(wxColour("#38b6ff"), 2));
+    dc.SetBrush(wxBrush(wxColour("#38b6ff")));
+    dc.DrawLine(553, 88, 1367, 88);
+    dc.DrawRectangle(0, 359, 1920, 54);
 }
 
 void Frame2::Initialize(const std::string gender, const std::string ageGroup, const std::string exactAge,
@@ -232,16 +223,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(430.4));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 430));
 
         heartRateNormality->SetLabel("Alert");
-
         heartRateNormality->SetFont(font4);
         heartRateNormality->SetForegroundColour(wxColour("#fa2b3a"));
     }
@@ -252,16 +237,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(430.4));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 430));
 
         heartRateNormality->SetLabel("Normal");
-
         heartRateNormality->SetFont(font4);
         heartRateNormality->SetForegroundColour(wxColour("#4bae4f"));
     }
@@ -273,16 +252,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(491.9));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 492));
 
         bloodPressureNormality->SetLabel("Alert");
-
         bloodPressureNormality->SetFont(font4);
         bloodPressureNormality->SetForegroundColour(wxColour("#fa2b3a"));
     }
@@ -293,16 +266,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(491.9));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 492));
 
         bloodPressureNormality->SetLabel("Normal");
-
         bloodPressureNormality->SetFont(font4);
         bloodPressureNormality->SetForegroundColour(wxColour("#4bae4f"));
     }
@@ -314,16 +281,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(553.4));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 553));
 
         temperatureCelsiusNormality->SetLabel("Alert");
-
         temperatureCelsiusNormality->SetFont(font4);
         temperatureCelsiusNormality->SetForegroundColour(wxColour("#fa2b3a"));
     }
@@ -334,16 +295,10 @@ void Frame2::checkNormality(wxPanel* panel, wxFont font4)
             return;
         }
 
-        wxSize imageSize(static_cast<int>(37.6), static_cast<int>(37.6));
-        image = image.Scale(imageSize.GetWidth(), imageSize.GetHeight());
-
-        wxBitmap bitmap(image);
-
-        wxPoint imagePosition(static_cast<int>(1660), static_cast<int>(553.4));
-        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, imagePosition);
+        wxBitmap bitmap(image.Scale(38, 38));
+        wxStaticBitmap* imageDisplay = new wxStaticBitmap(panel, wxID_ANY, bitmap, wxPoint(1660, 553));
 
         temperatureCelsiusNormality->SetLabel("Normal");
-
         temperatureCelsiusNormality->SetFont(font4);
         temperatureCelsiusNormality->SetForegroundColour(wxColour("#4bae4f"));
     }

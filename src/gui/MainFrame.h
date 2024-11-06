@@ -10,6 +10,8 @@
 #include "../female/female.h"
 #include "../male/male.h"
 #include "../func/function.h"
+#include "../database/DatabaseConnection.h"
+#include <wx/spinctrl.h>
 
 class MainFrame : public wxFrame {
 public:
@@ -22,6 +24,10 @@ private:
     wxButton* loadButton;
     wxButton* analyzeButton;
     wxStaticText* titleText;
+    wxButton* inputButton;
+    wxButton* lastWeekButton;
+    wxButton* lastTwoWeeksButton;
+    wxButton* allTimeButton;
     
     // Health check objects
     Child child;
@@ -55,6 +61,8 @@ private:
     void ProcessData();
     void DisplayResults();
     void ShowAbnormalPopup();
+    void OnInputData(wxCommandEvent& evt);
+    void OnTimeFilter(wxCommandEvent& evt);
     
     // Helper functions
     void LoadDataFromFile();
