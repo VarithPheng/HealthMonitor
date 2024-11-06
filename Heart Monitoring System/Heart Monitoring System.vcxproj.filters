@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\child">
+      <UniqueIdentifier>{6bf5638a-30df-44e2-a529-162f9e22e882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\female">
+      <UniqueIdentifier>{bca630fb-fde6-47f4-8c3a-e14c1c11bafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\male">
+      <UniqueIdentifier>{d345e82f-4b0f-4747-8474-f0fa9533de92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\function">
+      <UniqueIdentifier>{8451d375-1651-4c5e-90f5-08c2cbf935d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{8ac80c5f-4930-4534-8563-2c4fe9d8becb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\image">
+      <UniqueIdentifier>{c732cc03-f8e2-4b39-8327-8302dd371cec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="child.h">
+      <Filter>Source Files\child</Filter>
+    </ClInclude>
+    <ClInclude Include="female.h">
+      <Filter>Source Files\female</Filter>
+    </ClInclude>
+    <ClInclude Include="male.h">
+      <Filter>Source Files\male</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>Source Files\function</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame1.h">
+      <Filter>Source Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame2.h">
+      <Filter>Source Files\gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="child.cpp">
+      <Filter>Source Files\child</Filter>
+    </ClCompile>
+    <ClCompile Include="female.cpp">
+      <Filter>Source Files\female</Filter>
+    </ClCompile>
+    <ClCompile Include="male.cpp">
+      <Filter>Source Files\male</Filter>
+    </ClCompile>
+    <ClCompile Include="function.cpp">
+      <Filter>Source Files\function</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame1.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame2.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="accept.png">
+      <Filter>Source Files\image</Filter>
+    </Image>
+    <Image Include="monitor.png">
+      <Filter>Source Files\image</Filter>
+    </Image>
+    <Image Include="warning.png">
+      <Filter>Source Files\image</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
