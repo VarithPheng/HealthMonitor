@@ -1,115 +1,125 @@
 #include "PatientDetailsDialog.h"
+#include <wx/statline.h>
+#include <wx/grid.h>
 
 PatientDetailsDialog::PatientDetailsDialog(
     wxWindow* parent,
     const wxString& name,
     const wxString& gender,
     const wxString& ageGroup,
-    int exactAge,
+    int age,
     double heartRate,
     double bloodPressure,
     double temperature,
-    const wxString& referenceHR,
-    const wxString& referenceBP,
-    const wxString& referenceTemp)
-    : wxDialog(parent, wxID_ANY, "Patient Information", wxDefaultPosition, wxSize(800, 400))
+    const wxString& normalHeartRate,
+    const wxString& normalBloodPressure,
+    const wxString& normalTemperature)
+    : wxDialog(parent, wxID_ANY, "Patient Information", wxDefaultPosition, wxSize(800, 500))
 {
-    SetBackgroundColour(bgColor);
+    SetBackgroundColour(wxColour(26, 32, 44));  // Dark blue background
+    wxColour textColor(237, 242, 247);          // Light gray text
+    wxColour headerColor(66, 153, 225);         // Light blue for headers
+    wxColour normalColor(72, 187, 120);         // Green for normal values
 
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
-    // Header section
-    wxPanel* headerPanel = new wxPanel(this, wxID_ANY);
-    headerPanel->SetBackgroundColour(bgColor);
-    wxBoxSizer* headerSizer = new wxBoxSizer(wxVERTICAL);
-
     // Title
-    wxStaticText* titleText = new wxStaticText(headerPanel, wxID_ANY, "Patient Information");
+    wxStaticText* titleText = new wxStaticText(this, wxID_ANY, "Patient Information");
     wxFont titleFont = titleText->GetFont();
     titleFont.SetPointSize(24);
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
     titleText->SetFont(titleFont);
     titleText->SetForegroundColour(textColor);
+    mainSizer->Add(titleText, 0, wxALL, 20);
 
-    // Patient info
-    wxStaticText* nameText = new wxStaticText(headerPanel, wxID_ANY, 
-        wxString::Format("Name: %s", name));
-    wxStaticText* genderText = new wxStaticText(headerPanel, wxID_ANY, 
-        wxString::Format("Gender: %s", gender));
-    wxStaticText* ageGroupText = new wxStaticText(headerPanel, wxID_ANY, 
-        wxString::Format("Age Group: %s", ageGroup));
-    wxStaticText* exactAgeText = new wxStaticText(headerPanel, wxID_ANY, 
-        wxString::Format("Exact Age: %d years", exactAge));
+    // Patient Basic Info - with larger spacing and cleaner look
+    wxBoxSizer* infoSizer = new wxBoxSizer(wxVERTICAL);
+    
+    // Add info rows with more spacing and larger font
+    auto AddBasicInfoRow = [&](const wxString& label, const wxString& value) {
+        wxBoxSizer* rowSizer = new wxBoxSizer(wxHORIZONTAL);
+        wxStaticText* labelText = new wxStaticText(this, wxID_ANY, label);
+        wxStaticText* valueText = new wxStaticText(this, wxID_ANY, value);
+        
+        wxFont font = labelText->GetFont();
+        font.SetPointSize(14);  // Larger font
+        labelText->SetFont(font);
+        valueText->SetFont(font);
+        
+        labelText->SetForegroundColour(textColor);
+        valueText->SetForegroundColour(textColor);
+        
+        rowSizer->Add(labelText);
+        rowSizer->Add(valueText, 0, wxLEFT, 5);
+        
+        return rowSizer;
+    };
+    
+    infoSizer->Add(AddBasicInfoRow("Name: ", name), 0, wxALL, 5);
+    infoSizer->Add(AddBasicInfoRow("Gender: ", gender), 0, wxALL, 5);
+    infoSizer->Add(AddBasicInfoRow("Age Group: ", ageGroup), 0, wxALL, 5);
+    infoSizer->Add(AddBasicInfoRow("Exact Age: ", wxString::Format("%d years", age)), 0, wxALL, 5);
+    
+    mainSizer->Add(infoSizer, 0, wxALL, 20);
 
-    std::vector<wxStaticText*> infoTexts = {nameText, genderText, ageGroupText, exactAgeText};
-    for (auto text : infoTexts) {
-        text->SetForegroundColour(textColor);
-        wxFont font = text->GetFont();
-        font.SetPointSize(12);
-        text->SetFont(font);
-    }
+    // Separator line
+    mainSizer->Add(new wxStaticLine(this), 0, wxEXPAND | wxLEFT | wxRIGHT, 20);
+    mainSizer->AddSpacer(20);  // Space after line
 
-    headerSizer->Add(titleText, 0, wxALL | wxALIGN_LEFT, 10);
-    headerSizer->Add(new wxStaticLine(headerPanel), 0, wxEXPAND | wxALL, 5);
-    for (auto text : infoTexts) {
-        headerSizer->Add(text, 0, wxALL, 5);
-    }
-    headerPanel->SetSizer(headerSizer);
-
-    // Results grid
-    wxPanel* gridPanel = new wxPanel(this, wxID_ANY);
-    gridPanel->SetBackgroundColour(bgColor);
-    wxGridSizer* grid = new wxGridSizer(4, 5, 5, 5);
+    // Grid layout for vital signs
+    wxFlexGridSizer* gridSizer = new wxFlexGridSizer(4, 5, 15, 40);  // rows, cols, vgap, hgap
 
     // Headers
     std::vector<wxString> headers = {"Tests", "Results", "Units", "Reference Interval", "Normality"};
     for (const auto& header : headers) {
-        wxStaticText* headerText = new wxStaticText(gridPanel, wxID_ANY, header);
-        headerText->SetForegroundColour(headerColor);
-        wxFont font = headerText->GetFont();
-        font.SetPointSize(12);
-        font.SetWeight(wxFONTWEIGHT_BOLD);
-        headerText->SetFont(font);
-        grid->Add(headerText, 0, wxALL, 5);
+        wxStaticText* headerText = new wxStaticText(this, wxID_ANY, header);
+        wxFont headerFont = headerText->GetFont();
+        headerFont.SetPointSize(14);
+        headerText->SetFont(headerFont);
+        headerText->SetForegroundColour(wxColour(66, 153, 225));  // Light blue
+        gridSizer->Add(headerText);
     }
 
-    // Heart Rate row
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Heart Rate"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.0f", heartRate)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "bpm"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceHR), 0, wxALL, 5);
-    
-    wxStaticText* hrNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (heartRate >= 60 && heartRate <= 100) ? "Normal" : "Alert");
-    hrNormality->SetForegroundColour((heartRate >= 60 && heartRate <= 100) ? normalColor : alertColor);
-    grid->Add(hrNormality, 0, wxALL, 5);
+    // Data rows
+    auto AddDataRow = [&](const wxString& test, const wxString& result, 
+                         const wxString& unit, const wxString& reference,
+                         bool isNormal) {
+        wxFont rowFont;
+        rowFont.SetPointSize(14);
 
-    // Blood Pressure row
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Blood Pressure"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.0f", bloodPressure)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "mmHg"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceBP), 0, wxALL, 5);
-    
-    wxStaticText* bpNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (bloodPressure >= 90 && bloodPressure <= 120) ? "Normal" : "Alert");
-    bpNormality->SetForegroundColour((bloodPressure >= 90 && bloodPressure <= 120) ? normalColor : alertColor);
-    grid->Add(bpNormality, 0, wxALL, 5);
+        wxStaticText* testText = new wxStaticText(this, wxID_ANY, test);
+        wxStaticText* resultText = new wxStaticText(this, wxID_ANY, result);
+        wxStaticText* unitText = new wxStaticText(this, wxID_ANY, unit);
+        wxStaticText* refText = new wxStaticText(this, wxID_ANY, reference);
+        wxStaticText* normalText = new wxStaticText(this, wxID_ANY, isNormal ? "Normal" : "Abnormal");
 
-    // Temperature row
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Temperature"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.1f", temperature)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "°F"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceTemp), 0, wxALL, 5);
-    
-    wxStaticText* tempNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (temperature >= 97.0 && temperature <= 99.0) ? "Normal" : "Alert");
-    tempNormality->SetForegroundColour((temperature >= 97.0 && temperature <= 99.0) ? normalColor : alertColor);
-    grid->Add(tempNormality, 0, wxALL, 5);
+        std::vector<wxStaticText*> texts = {testText, resultText, unitText, refText, normalText};
+        for (auto* text : texts) {
+            text->SetFont(rowFont);
+            text->SetForegroundColour(textColor);
+        }
+        normalText->SetForegroundColour(isNormal ? wxColour(72, 187, 120) : wxColour(244, 67, 54));
 
-    gridPanel->SetSizer(grid);
+        for (auto* text : texts) {
+            gridSizer->Add(text);
+        }
+    };
 
-    mainSizer->Add(headerPanel, 0, wxEXPAND | wxALL, 5);
-    mainSizer->Add(gridPanel, 0, wxEXPAND | wxALL, 5);
+    // In the constructor, convert the temperature from Fahrenheit to Celsius
+    double celsiusTemp = (temperature - 32) * 5/9;  // Convert F to C
+
+    // Update the temperature row in the grid
+    AddDataRow("Heart Rate", wxString::Format("%.0f", heartRate), "bpm", 
+               normalHeartRate, IsHeartRateNormal(heartRate));
+    AddDataRow("Blood Pressure", wxString::Format("%.0f", bloodPressure), "mmHg", 
+               normalBloodPressure, IsBloodPressureNormal(bloodPressure));
+    AddDataRow("Temperature", 
+              wxString::Format("%.1f", celsiusTemp),  // Display with 1 decimal place
+              "°C",  // Changed from °F to °C
+              "36.1-37.2°C",  // Updated reference range in Celsius
+              IsTemperatureNormal(celsiusTemp));
+
+    mainSizer->Add(gridSizer, 1, wxALL, 20);
 
     SetSizer(mainSizer);
-} 
+}

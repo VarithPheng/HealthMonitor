@@ -4,7 +4,6 @@
 #include <wx/wx.h>
 #include <vector>
 #include <wx/stattext.h>
-#include <wx/choice.h>
 #include <libpq-fe.h>
 #include "PatientDetailsDialog.h"
 
@@ -19,10 +18,9 @@ private:
     wxButton* loadButton;
     wxButton* analyzeButton;
     wxStaticText* titleText;
-    wxChoice* timeFilter;
-    wxScrolledWindow* scrolledWindow;
     wxPanel* resultsPanel;
     wxBoxSizer* resultsSizer;
+    wxScrolledWindow* scrolledWindow;
     
     // Colors
     wxColour bgColor = wxColour(26, 32, 44);
@@ -30,19 +28,26 @@ private:
     wxColour textColor = wxColour(237, 242, 247);
     
     // Database connection
-    PGconn* dbConn = nullptr;
+    PGconn* dbConn;
+    
+    // Analysis mode flag
+    bool isAnalyzeMode = false;
     
     // Data structures
+    struct VitalRecord {
+        wxString weekOf;
+        double heartRate;
+        double bloodPressure;
+        double temperature;
+        bool isNormal;
+    };
+
     struct Patient {
         wxString name;
         wxString gender;
         wxString ageGroup;
         int age;
-        double heartRate;
-        double bloodPressure;
-        double temperature;
-        bool isNormal;
-        wxString recordedAt;
+        std::vector<VitalRecord> records;
     };
 
     std::vector<Patient> normalPatients;
@@ -52,15 +57,11 @@ private:
     void OnGenerateData(wxCommandEvent& evt);
     void OnLoadData(wxCommandEvent& evt);
     void OnAnalyzeData(wxCommandEvent& evt);
-    void OnTimeFilterChange(wxCommandEvent& evt);
     
     // Helper functions
     bool ConnectToDatabase();
     void LoadDataFromDB();
-    void ProcessData();
     void DisplayResults();
-    void CreatePatientPanel(wxPanel* parent, const Patient& patient, bool isNormal);
-    wxString GetTimeFilterCondition();
 };
 
 #endif
