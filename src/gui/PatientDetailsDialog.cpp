@@ -1,19 +1,18 @@
 #include "PatientDetailsDialog.h"
-using namespace std;
 
 PatientDetailsDialog::PatientDetailsDialog(
     wxWindow* parent,
-    const string& name,
-    const string& gender,
-    const string& ageGroup,
+    const wxString& name,
+    const wxString& gender,
+    const wxString& ageGroup,
     int exactAge,
     double heartRate,
     double bloodPressure,
     double temperature,
-    const string& referenceHR,
-    const string& referenceBP,
-    const string& referenceTemp)
-    : wxDialog(parent, wxID_ANY, "Patient", wxDefaultPosition, wxSize(800, 400))
+    const wxString& referenceHR,
+    const wxString& referenceBP,
+    const wxString& referenceTemp)
+    : wxDialog(parent, wxID_ANY, "Patient Information", wxDefaultPosition, wxSize(800, 400))
 {
     SetBackgroundColour(bgColor);
 
@@ -25,7 +24,7 @@ PatientDetailsDialog::PatientDetailsDialog(
     wxBoxSizer* headerSizer = new wxBoxSizer(wxVERTICAL);
 
     // Title
-    wxStaticText* titleText = new wxStaticText(headerPanel, wxID_ANY, "Patient");
+    wxStaticText* titleText = new wxStaticText(headerPanel, wxID_ANY, "Patient Information");
     wxFont titleFont = titleText->GetFont();
     titleFont.SetPointSize(24);
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
@@ -40,9 +39,9 @@ PatientDetailsDialog::PatientDetailsDialog(
     wxStaticText* ageGroupText = new wxStaticText(headerPanel, wxID_ANY, 
         wxString::Format("Age Group: %s", ageGroup));
     wxStaticText* exactAgeText = new wxStaticText(headerPanel, wxID_ANY, 
-        wxString::Format("Exact Age: %d (years)", exactAge));
+        wxString::Format("Exact Age: %d years", exactAge));
 
-    vector<wxStaticText*> infoTexts = {nameText, genderText, ageGroupText, exactAgeText};
+    std::vector<wxStaticText*> infoTexts = {nameText, genderText, ageGroupText, exactAgeText};
     for (auto text : infoTexts) {
         text->SetForegroundColour(textColor);
         wxFont font = text->GetFont();
@@ -50,7 +49,7 @@ PatientDetailsDialog::PatientDetailsDialog(
         text->SetFont(font);
     }
 
-    headerSizer->Add(titleText, 0, wxALL | wxALIGN_CENTER, 10);
+    headerSizer->Add(titleText, 0, wxALL | wxALIGN_LEFT, 10);
     headerSizer->Add(new wxStaticLine(headerPanel), 0, wxEXPAND | wxALL, 5);
     for (auto text : infoTexts) {
         headerSizer->Add(text, 0, wxALL, 5);
@@ -63,7 +62,7 @@ PatientDetailsDialog::PatientDetailsDialog(
     wxGridSizer* grid = new wxGridSizer(4, 5, 5, 5);
 
     // Headers
-    vector<string> headers = {"TESTS", "RESULTS", "UNITS", "REFERENCE INTERVAL", "NORMALITY"};
+    std::vector<wxString> headers = {"Tests", "Results", "Units", "Reference Interval", "Normality"};
     for (const auto& header : headers) {
         wxStaticText* headerText = new wxStaticText(gridPanel, wxID_ANY, header);
         headerText->SetForegroundColour(headerColor);
@@ -76,35 +75,35 @@ PatientDetailsDialog::PatientDetailsDialog(
 
     // Heart Rate row
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Heart Rate"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.1f", heartRate)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "bpm (beat per minute)"), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.0f", heartRate)), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "bpm"), 0, wxALL, 5);
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceHR), 0, wxALL, 5);
     
     wxStaticText* hrNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (heartRate >= 62 && heartRate <= 73) ? "Normal" : "Alert");
-    hrNormality->SetForegroundColour((heartRate >= 62 && heartRate <= 73) ? normalColor : alertColor);
+        (heartRate >= 60 && heartRate <= 100) ? "Normal" : "Alert");
+    hrNormality->SetForegroundColour((heartRate >= 60 && heartRate <= 100) ? normalColor : alertColor);
     grid->Add(hrNormality, 0, wxALL, 5);
 
     // Blood Pressure row
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Blood Pressure"), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.1f", bloodPressure)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "mmHg (millimeters of mercury)"), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.0f", bloodPressure)), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "mmHg"), 0, wxALL, 5);
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceBP), 0, wxALL, 5);
     
     wxStaticText* bpNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (bloodPressure <= 119) ? "Normal" : "Alert");
-    bpNormality->SetForegroundColour((bloodPressure <= 119) ? normalColor : alertColor);
+        (bloodPressure >= 90 && bloodPressure <= 120) ? "Normal" : "Alert");
+    bpNormality->SetForegroundColour((bloodPressure >= 90 && bloodPressure <= 120) ? normalColor : alertColor);
     grid->Add(bpNormality, 0, wxALL, 5);
 
     // Temperature row
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Temperature (°C)"), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "Temperature"), 0, wxALL, 5);
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, wxString::Format("%.1f", temperature)), 0, wxALL, 5);
-    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "°C (Degree Celsius)"), 0, wxALL, 5);
+    grid->Add(new wxStaticText(gridPanel, wxID_ANY, "°F"), 0, wxALL, 5);
     grid->Add(new wxStaticText(gridPanel, wxID_ANY, referenceTemp), 0, wxALL, 5);
     
     wxStaticText* tempNormality = new wxStaticText(gridPanel, wxID_ANY, 
-        (temperature >= 36 && temperature <= 37) ? "Normal" : "Alert");
-    tempNormality->SetForegroundColour((temperature >= 36 && temperature <= 37) ? normalColor : alertColor);
+        (temperature >= 97.0 && temperature <= 99.0) ? "Normal" : "Alert");
+    tempNormality->SetForegroundColour((temperature >= 97.0 && temperature <= 99.0) ? normalColor : alertColor);
     grid->Add(tempNormality, 0, wxALL, 5);
 
     gridPanel->SetSizer(grid);
@@ -112,5 +111,5 @@ PatientDetailsDialog::PatientDetailsDialog(
     mainSizer->Add(headerPanel, 0, wxEXPAND | wxALL, 5);
     mainSizer->Add(gridPanel, 0, wxEXPAND | wxALL, 5);
 
-    this->SetSizer(mainSizer);
+    SetSizer(mainSizer);
 } 

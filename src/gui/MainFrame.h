@@ -4,72 +4,63 @@
 #include <wx/wx.h>
 #include <vector>
 #include <wx/stattext.h>
-#include <wx/msgdlg.h>
-#include "../../data/data.h"
-#include "../child/child.h"
-#include "../female/female.h"
-#include "../male/male.h"
-#include "../func/function.h"
-#include "../database/DatabaseConnection.h"
-#include <wx/spinctrl.h>
+#include <wx/choice.h>
+#include <libpq-fe.h>
+#include "PatientDetailsDialog.h"
 
 class MainFrame : public wxFrame {
 public:
     MainFrame(const wxString& title);
+    ~MainFrame();
 
 private:
     // GUI Elements
-    wxTextCtrl* outputText;
     wxButton* generateButton;
     wxButton* loadButton;
     wxButton* analyzeButton;
     wxStaticText* titleText;
-    wxButton* inputButton;
-    wxButton* lastWeekButton;
-    wxButton* lastTwoWeeksButton;
-    wxButton* allTimeButton;
-    
-    // Health check objects
-    Child child;
-    Male male;
-    Female female;
+    wxChoice* timeFilter;
+    wxScrolledWindow* scrolledWindow;
+    wxPanel* resultsPanel;
+    wxBoxSizer* resultsSizer;
     
     // Colors
-    wxColour bgColor = wxColour(240, 240, 240);  // Light gray background
-    wxColour buttonColor = wxColour(52, 152, 219);  // Blue buttons
-    wxColour textColor = wxColour(44, 62, 80);  // Dark text
-    wxColour normalColor = wxColour(46, 204, 113);  // Green for normal
-    wxColour abnormalColor = wxColour(231, 76, 60);  // Red for abnormal
+    wxColour bgColor = wxColour(26, 32, 44);
+    wxColour buttonColor = wxColour(66, 153, 225);
+    wxColour textColor = wxColour(237, 242, 247);
     
-    // Data storage
+    // Database connection
+    PGconn* dbConn = nullptr;
+    
+    // Data structures
     struct Patient {
-        string name;
+        wxString name;
+        wxString gender;
+        wxString ageGroup;
         int age;
         double heartRate;
         double bloodPressure;
         double temperature;
         bool isNormal;
+        wxString recordedAt;
     };
-    vector<Patient> patients;
-    vector<Patient> normalPatients;
-    vector<Patient> abnormalPatients;
+
+    std::vector<Patient> normalPatients;
+    std::vector<Patient> abnormalPatients;
     
     // Event handlers
     void OnGenerateData(wxCommandEvent& evt);
     void OnLoadData(wxCommandEvent& evt);
     void OnAnalyzeData(wxCommandEvent& evt);
-    void ProcessData();
-    void DisplayResults();
-    void ShowAbnormalPopup();
-    void OnInputData(wxCommandEvent& evt);
-    void OnTimeFilter(wxCommandEvent& evt);
+    void OnTimeFilterChange(wxCommandEvent& evt);
     
     // Helper functions
-    void LoadDataFromFile();
-    string FormatResults();
-    int getAgeChoice(int age);
-    void GenerateNewData();
-    void StyleButton(wxButton* button);
+    bool ConnectToDatabase();
+    void LoadDataFromDB();
+    void ProcessData();
+    void DisplayResults();
+    void CreatePatientPanel(wxPanel* parent, const Patient& patient, bool isNormal);
+    wxString GetTimeFilterCondition();
 };
 
 #endif
