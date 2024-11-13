@@ -5,21 +5,29 @@
 using namespace std;
 
 class Child {
-	private:
-		bool isHeartRateNormal;
-		bool isBloodPressureNormal;
-		bool isTemperatureNormal;
+private:
+	string heartRateInterval;
+	string bloodPressureInterval;
+	string temperatureInterval;
 
-	public:
-		Child();
+	bool isHeartRateNormal;
+	bool isBloodPressureNormal;
+	bool isTemperatureNormal;
 
-		void heartRate(const string& ageGroup, int bpm);
-		void bloodPressure(const string& ageGroup, int sys, int dia);
-		void temperature(const string& ageGroup, double temp);
+public:
+	Child();
 
-		bool getHeartRateNormal() const;
-		bool getBloodPressureNormal() const;
-		bool getTemperatureNormal() const;
+	void heartRate(const string& ageGroup, int bpm);
+	void bloodPressure(const string& ageGroup, int sys, int dia);
+	void temperature(const string& ageGroup, double temp);
+
+	string getHeartRateInterval() const;
+	string getBloodPressureInterval() const;
+	string getTemperatureInterval() const;
+
+	bool getHeartRateNormal() const;
+	bool getBloodPressureNormal() const;
+	bool getTemperatureNormal() const;
 };
 
 #endif

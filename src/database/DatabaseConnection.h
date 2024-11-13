@@ -1,19 +1,27 @@
-#ifndef DATABASE_CONNECTION_H
-#define DATABASE_CONNECTION_H
+#ifndef DATABASECONNECTION_H
+#define DATABASECONNECTION_H
 
 #include <libpq-fe.h>
-#include <memory>
 #include <string>
 
 class DatabaseConnection {
-private:
-    PGconn* conn;
-    DatabaseConnection(const char* conninfo);
+    public:
+        DatabaseConnection();
+        ~DatabaseConnection();
+        PGconn* getConnection();
 
-public:
-    ~DatabaseConnection();
-    PGresult* executeQuery(const char* query);
-    static std::shared_ptr<DatabaseConnection> getInstance();
+        void insertPatientData(PGconn* conn, const std::string& name, const std::string& gender, const std::string& ageGroup,
+            const std::string& exactAge, int heartRate, int bloodPressure1, int bloodPressure2, double temperature);
+
+        void retrievePatientId(PGconn* conn, int& id, std::string name);
+
+        void retrievePatientData(PGconn* conn, int id, std::string& name, std::string& gender, std::string& ageGroup,
+            std::string& exactAge, int& heartRate, int& bloodPressure1, int& bloodPressure2, double& temperature);
+
+    private:
+        PGconn* conn;
+        std::string connectionInfo;
+        std::string getConnectionInfo();
 };
 
-#endif 
+#endif // DATABASE_CONNECTION_H

@@ -1,13 +1,13 @@
 #include <wx/wx.h>
-#include "MainFrame.h"
+#include "Frame1.h"
 
 class App : public wxApp
 {
 public:
     bool OnInit()
     {
-        MainFrame* mainFrame = new MainFrame("Health Monitor");
-        mainFrame->Show();
+        Frame1* frame1 = new Frame1("Health Monitor");
+        frame1->Show();
         return true;
     }
 };
