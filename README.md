@@ -31,6 +31,10 @@ brew install libpq
 brew install wxwidgets
 ```
 
+```bash
+brew install nlohmann-json
+```
+
 ### Windows
 
 #### Download and Install wxWidgets
