@@ -33,11 +33,11 @@ brew install wxwidgets
 
 ### Windows
 
-## Download and Install wxWidgets
+#### Download and Install wxWidgets
 1. Download the wxWidgets Windows Installer from [wxWidgets Downloads](https://www.wxwidgets.org/downloads/).
 2. Follow the installation wizard instructions to complete the installation.
 
-## Install PostgreSQL
+#### Install PostgreSQL
 1. Download PostgreSQL from [PostgreSQL Downloads](https://www.postgresql.org/download/).
 2. Follow the installation wizard instructions to install PostgreSQL on your system.
 
