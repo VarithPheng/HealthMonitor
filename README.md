@@ -1,4 +1,4 @@
-# HealthMonitor
+# Health Monitoring System
 
 A C++ GUI application for monitoring patient vital signs and detecting abnormal health conditions.
 
@@ -17,43 +17,29 @@ Before you begin, ensure you have the following installed:
 
 - C++ compiler (supporting C++11 or later)
 - wxWidgets library (for GUI)
-- Make or similar build system
+- PostgresSQL
 
-## Compile with GUI
+## Prerequisites
 
-```bash
-g++ -o health_monitor_gui src/gui/App.cpp src/gui/MainFrame.cpp src/gui/CustomDialog.cpp src/func/function.cpp src/male/male.cpp src/female/female.cpp src/child/child.cpp data/data.cpp `wx-config --cxxflags --libs` -std=c++11
-```
-
-## Run with GUI
-
-```bash
-./health_monitor_gui
-```
-
-## Compile without GUI
-
-```bash
-g++ -o health_check src/main/main.cpp src/func/function.cpp src/male/male.cpp src/female/female.cpp src/child/child.cpp -std=c++11
-```
-
-## Run without GUI
-
-```bash
-./health_check
-```
-
-## Prerequisites for PostgreSQL
+### macOS
 
 ```bash
 brew install libpq
 ```
 
-## Compile with GUI and PostgreSQL
-
 ```bash
-g++ -o health_monitor_gui src/gui/App.cpp src/gui/MainFrame.cpp src/gui/PatientDetailsDialog.cpp src/func/function.cpp src/male/male.cpp src/female/female.cpp src/child/child.cpp src/database/DatabaseConnection.cpp data/data.cpp `wx-config --cxxflags --libs` -I/opt/homebrew/opt/libpq/include -L/opt/homebrew/opt/libpq/lib -lpq -std=c++11
+brew install wxwidgets
 ```
+
+### Windows
+
+## Download and Install wxWidgets
+1. Download the wxWidgets Windows Installer from [wxWidgets Downloads](https://www.wxwidgets.org/downloads/).
+2. Follow the installation wizard instructions to complete the installation.
+
+## Install PostgreSQL
+1. Download PostgreSQL from [PostgreSQL Downloads](https://www.postgresql.org/download/).
+2. Follow the installation wizard instructions to install PostgreSQL on your system.
 
 ## For macOS
 
