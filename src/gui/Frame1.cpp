@@ -63,7 +63,7 @@ void Frame1::drawRectangle(wxPaintEvent& event)
     dc.SetPen(wxPen(wxColour("#38b6ff"), 2)); // Outline color
     dc.SetBrush(wxBrush(wxColour("#38b6ff"))); // Fill color
 
-    dc.DrawRectangle(0, 0, 715, 70);
+    dc.DrawRectangle(0, 0, 735, 70);
 }
 
 void Frame1::inputManuallyButtonClicked(wxCommandEvent& event)

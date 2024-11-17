@@ -73,6 +73,7 @@ private:
 
 	wxButton* previousButton;
 	wxButton* nextButton;
+	wxButton* returnButton;
 
 	void drawShape(wxPaintEvent& event);
 	void Initialize(const std::string gender, const std::string ageGroup, const std::string exactAge,
@@ -84,6 +85,7 @@ private:
 
 	void previousButtonClicked(wxCommandEvent& event);
 	void nextButtonClicked(wxCommandEvent& event);
+	void returnButtonClicked(wxCommandEvent& event);
 
 	void setData(const std::string name, const std::string gender, const std::string ageGroup, const std::string exactAge,
 		int heartRate, int bloodPressure1, int bloodPressure2, double temperature);

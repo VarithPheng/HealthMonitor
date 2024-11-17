@@ -3,6 +3,7 @@
 #include "../../male/male.h"
 #include "../../female/female.h"
 #include "../../database/databaseConnection.h"
+#include "../Frame1.h"
 
 #include <wx/font.h>
 
@@ -91,7 +92,7 @@ Display::Display(const wxString& title, int id, std::string name, std::string ge
     bloodPressureText->SetFont(font4);
     bloodPressureText->SetForegroundColour(*wxBLACK);
 
-    temperatureCelsiusText = new wxStaticText(panel, wxID_ANY, "Temperature (°C)", wxPoint(26.2, 553.4));
+    temperatureCelsiusText = new wxStaticText(panel, wxID_ANY, "Temperature ( C)", wxPoint(26.2, 553.4));
     temperatureCelsiusText->SetFont(font4);
     temperatureCelsiusText->SetForegroundColour(*wxBLACK);
 
@@ -114,7 +115,7 @@ Display::Display(const wxString& title, int id, std::string name, std::string ge
     bloodPressureUnit->SetFont(font4);
     bloodPressureUnit->SetForegroundColour(*wxBLACK);
 
-    temperatureCelsiusUnit = new wxStaticText(panel, wxID_ANY, "°C (Degree Celsius)", wxPoint(674.3, 553.4));
+    temperatureCelsiusUnit = new wxStaticText(panel, wxID_ANY, " C (Degree Celsius)", wxPoint(674.3, 553.4));
     temperatureCelsiusUnit->SetFont(font4);
     temperatureCelsiusUnit->SetForegroundColour(*wxBLACK);
 
@@ -145,7 +146,8 @@ Display::Display(const wxString& title, int id, std::string name, std::string ge
     checkNormality(panel, font4);
 
     previousButton = new wxButton(panel, wxID_ANY, "Previous", wxPoint(10, 620), wxSize(160, 54));
-    nextButton = new wxButton(panel, wxID_ANY, "Next", wxPoint(1730, 620), wxSize(160, 54));
+    nextButton = new wxButton(panel, wxID_ANY, "Next", wxPoint(1730, 620), wxSize(160, 54)); 
+    returnButton = new wxButton(panel, wxID_ANY, "Return", wxPoint(870, 620), wxSize(160, 54));
 
     wxFont buttonFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Georgia");
 
@@ -157,8 +159,13 @@ Display::Display(const wxString& title, int id, std::string name, std::string ge
     nextButton->SetBackgroundColour(wxColour("#38b6ff"));
     nextButton->SetForegroundColour(*wxWHITE);
 
+    returnButton->SetFont(buttonFont);
+    returnButton->SetBackgroundColour(wxColour("#38b6ff"));
+    returnButton->SetForegroundColour(*wxWHITE);
+
     previousButton->Bind(wxEVT_BUTTON, &Display::previousButtonClicked, this);
     nextButton->Bind(wxEVT_BUTTON, &Display::nextButtonClicked, this);
+    returnButton->Bind(wxEVT_BUTTON, &Display::returnButtonClicked, this);
 }
 
 void Display::drawShape(wxPaintEvent& event)
@@ -279,6 +286,14 @@ void Display::nextButtonClicked(wxCommandEvent& event)
     else {
         wxMessageBox("No next patient found.", "No Next Patient", wxICON_INFORMATION);
     }
+}
+
+void Display::returnButtonClicked(wxCommandEvent& event)
+{
+    Frame1* frame1 = new Frame1("Health Monitor");
+    frame1->Show();
+
+    Close();
 }
 
 void Display::setData(const std::string name, const std::string gender, const std::string ageGroup, const std::string exactAge,

@@ -53,7 +53,10 @@ class Frame3 : public wxFrame {
 		wxStaticText* bloodPressureNormality;
 		wxStaticText* temperatureCelsiusNormality;
 
+		wxButton* returnButton;
+
 		void drawShape(wxPaintEvent& event);
+		void returnButtonClicked(wxCommandEvent& event);
 		void Initialize(const std::string gender, const std::string ageGroup, const std::string exactAge,
 			int heartRate, int bloodPressure1, int bloodPressure2, double temperature);
 		void checkNormality(wxPanel* panel, wxFont font4);
